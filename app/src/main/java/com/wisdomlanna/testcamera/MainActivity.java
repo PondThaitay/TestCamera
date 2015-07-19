@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     public static int _counterPic = 0;
     private Bitmap imageSelected;
     private ImageView imageView;
+    String[] imagePath;
+    private LogUserDataImage di;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
         container = (LinearLayout) findViewById(R.id.imagecontainer);
         captureDir = new File(Environment.getExternalStorageDirectory(), "FeedbackPhoto");
+
+        di = new LogUserDataImage(context);
 
         if (!captureDir.exists())
             captureDir.mkdirs();
@@ -185,6 +189,10 @@ public class MainActivity extends AppCompatActivity {
 
             MediaStore.Images.Media.insertImage(context.getContentResolver()
                     , file.getAbsolutePath(), file.getName(), file.getName());
+
+            Log.i("POND", "path : " + fullPath + namePic + String.valueOf(counterPic) + ".png");
+            imagePath[counterPic] = fullPath + "/" + namePic + String.valueOf(_counterPic) + ".png";
+            di.setData(1, "1", "1", imagePath);
             counterPic++;
             return true;
         } catch (Exception e) {
